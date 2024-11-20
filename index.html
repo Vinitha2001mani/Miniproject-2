@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beneficiary Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom Styling */
+        .profile-img {
+            height: 100px;
+            width: 70px;
+            border-radius: 50%;
+            margin-top: 100px;
+            margin-left: 24px;
+            margin-bottom: 23px;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+        }
+        .container .row {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 -50px;
+        }
+        .smallwidth {
+            width: 20%;
+            height: 100vh;
+            background-color: rgb(7, 52, 116);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .largewidth {
+            width: 80%;
+            height: 100vh;
+        }
+        .leftcolumn{
+            margin-bottom: 500px;
+        }
+        .leftcolumn p {
+            color: white;
+        }
+        .leftcolumn p span {
+            font-weight: bold;
+        }
+        .leftcolumn button a {
+            color: black;
+        }
+        .largewidth .rightcolumn {
+            position: relative;
+            margin-left: 30px;
+        }
+        .largewidth .rightcolumn button {
+            background-color: rgba(151, 11, 202, 0.977);
+            border: none;
+            color: white;
+            border-radius: 5px;
+            height: 45px;
+            width: 140px;
+            margin: 5px;
+            padding: 10px 0px;
+            cursor: pointer;
+            font-weight: 550;
+        }
+        #submitBtn{
+            background-color: rgba(151, 11, 202, 0.977);
+            border: none;
+            color: white;
+            border-radius: 5px;
+            margin: 5px;
+            padding: 10px 0px;
+            cursor: pointer;
+            font-weight: 550;
+        }
+        .table-responsive {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .badge.bg-success {
+            background-color: green;
+        }
+        .badge.bg-danger {
+            background-color: red;
+        }
+        /* Form Styling */
+        .form-container {
+            margin-top: 30px;
+        }
+        /* Ensure the Add Beneficiary button is full width */
+    button[type="submit"] {
+    width: 100%;  /* Full width for the submit button */
+}
+
+        /* Mobile and Tablet Responsive Design */
+        /* Mobile View */
+        @media (max-width: 576px) {
+            .container .row {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px;
+            }
+            .smallwidth {
+                width: 100%;
+                height: auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .largewidth {
+                width: 100%;
+                height: auto;
+            }
+            .leftcolumn {
+                margin-bottom: 0;
+            }
+            .largewidth .rightcolumn {
+                margin-left: 0;
+            }
+            /* Full width form fields and buttons */
+            .form-container input,
+            .form-container button {
+                width: 100%;
+            }
+        }
+
+        /* Tablet View */
+        @media (min-width: 577px) and (max-width: 768px) {
+            .container .row {
+                flex-direction: column;
+                padding: 20px;
+            }
+            .smallwidth {
+                width: 100%;
+                height: auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .largewidth {
+                width: 100%;
+                height: auto;
+            }
+            .largewidth .rightcolumn {
+                margin-left: 0;
+            }
+            .form-container input,
+            .form-container button {
+                width: 100%;
+            }
+        }
+
+        /* Desktop and larger screens */
+        @media (min-width: 769px) {
+            .container .row {
+                flex-direction: row;
+            }
+            .smallwidth {
+                width: 20%;
+            }
+            .largewidth {
+                width: 80%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Sidebar -->
+        <div class="row">
+            <div class="smallwidth">
+                <div class="leftcolumn">
+                    <img src="images/client3.png.jpg" alt="Profile" class="profile-img">
+                    <p><span>D.O.C:</span> 28.04.2023</p>
+                    <p><span>Status:</span> Complete</p>
+                    <button><a href="#">Back Home</a></button>
+                </div>
+            </div>
+
+            <!-- Right Main Content -->
+            <div class="largewidth">
+                <div class="rightcolumn">
+                    <button>ADD Beneficiaries</button>
+                    <button>ADD Asset</button>
+                    <button>ADD Liability</button>
+                    <button>CREATE Links</button>
+                    <button>ADD Signatures</button>
+                    <button>Will Generation</button>
+                </div>
+
+                <!-- Table for Beneficiaries -->
+                <div class="table-responsive" style="margin-top: 20px;">
+                    <table class="table table-striped">
+                        <thead class="table-light" >
+                            <tr>
+                                <th>S. No</th>
+                                <th>Name</th>
+                                <th>Relationship</th>
+                                <th>Date of Birth</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="beneficiaryTableBody">
+                            <!-- Rows will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+
+
+                    <!-- Beneficiary Form -->
+<div class="form-container">
+    <h4>Add New Beneficiary</h4>
+    <form id="beneficiaryForm" class="mb-4">
+        <div class="row g-3">
+            <div class="col-12">
+                <label for="serialNumber">S.No</label>
+                <input type="number" id="serialNumber" class="form-control" required />
+            </div>
+            <div class="col-12">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" class="form-control" required />
+            </div>
+            <div class="col-12">
+                <label for="relationship">Relationship</label>
+                <input type="text" id="relationship" class="form-control" required />
+            </div>
+            <div class="col-12">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" class="form-control" required />
+            </div>
+            <div class="col-12">
+                <label for="status">Status</label>
+                <input type="text" id="status" class="form-control" required />
+            </div>
+            <div class="col-12">
+                <button type="submit" id="submitBtn">Add Beneficiary</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Script for Dynamic Table and Form -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("beneficiaryForm");
+            const tableBody = document.getElementById("beneficiaryTableBody");
+            const submitBtn = document.getElementById("submitBtn");
+            let editingRow = null; // To keep track of the row being edited
+
+            form.addEventListener("submit", (event) => {
+                event.preventDefault();
+
+                // Get form data
+                const serialNumber = document.getElementById("serialNumber").value.trim();
+                const firstName = document.getElementById("firstName").value.trim();
+                const relationship = document.getElementById("relationship").value.trim();
+                const dob = document.getElementById("dob").value;
+                const status = document.getElementById("status").value.trim();
+
+                // Determine status badge class
+                const statusClass = status.toLowerCase() === "active" ? "bg-success" : "bg-danger";
+
+                if (editingRow) {
+                    // Update the existing row
+                    const cells = editingRow.querySelectorAll("td");
+                    cells[0].textContent = serialNumber;
+                    cells[1].textContent = firstName;
+                    cells[2].textContent = relationship;
+                    cells[3].textContent = dob;
+                    cells[4].innerHTML = `<span class="badge ${statusClass}">${status}</span>`;
+
+                    editingRow = null; // Reset editingRow
+                    submitBtn.textContent = "Add Beneficiary"; // Change button text back
+                } else {
+                    // Create new table row
+                    const newRow = document.createElement("tr");
+
+                    newRow.innerHTML = `
+                        <td>${serialNumber}</td>
+                        <td>${firstName}</td>
+                        <td>${relationship}</td>
+                        <td>${dob}</td>
+                        <td><span class="badge ${statusClass}">${status}</span></td>
+                        <td>
+                            <button class="btn btn-warning btn-sm edit-btn me-2">Edit</button>
+                            <button class="btn btn-danger btn-sm delete-btn">Delete</button>
+                        </td>
+                    `;
+
+                    tableBody.appendChild(newRow);
+
+                    // Add functionality for delete
+                    newRow.querySelector(".delete-btn").addEventListener("click", () => {
+                        tableBody.removeChild(newRow);
+                    });
+
+                    // Add functionality for edit
+                    newRow.querySelector(".edit-btn").addEventListener("click", () => {
+                        populateForm(newRow);
+                    });
+                }
+
+                // Clear form fields
+                form.reset();
+            });
+
+            // Populate form with row data for editing
+            function populateForm(row) {
+                editingRow = row; // Set the row being edited
+
+                const cells = row.querySelectorAll("td");
+                document.getElementById("serialNumber").value = cells[0].textContent.trim();
+                document.getElementById("firstName").value = cells[1].textContent.trim();
+                document.getElementById("relationship").value = cells[2].textContent.trim();
+                document.getElementById("dob").value = cells[3].textContent.trim();
+                document.getElementById("status").value = cells[4].textContent.trim();
+
+                // Change submit button text to "Update Beneficiary"
+                submitBtn.textContent = "Update Beneficiary";
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
